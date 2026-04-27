@@ -5,6 +5,7 @@ import com.dev.async_notification_api.domain.Notification;
 import com.dev.async_notification_api.domain.dto.NotificationRequestDTO;
 import com.dev.async_notification_api.domain.dto.NotificationResponseDTO;
 import com.dev.async_notification_api.repository.NotificationRepository;
+import com.dev.async_notification_api.service.exception.NotificationNotFoundException;
 import java.util.List;
 import java.util.UUID;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -35,7 +36,7 @@ public class NotificationService {
 
     public NotificationResponseDTO findById(UUID id) {
         Notification notification = notificationRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Notification not found: " + id));
+                .orElseThrow(() -> new NotificationNotFoundException(id));
         return toResponse(notification);
     }
 
